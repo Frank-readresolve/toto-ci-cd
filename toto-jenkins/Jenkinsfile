@@ -1,0 +1,12 @@
+pipeline {
+    node {
+        label "$NODE"
+    }
+    stages {
+        stage("Hello world stage") {
+            steps {
+                echo "Hello world!"
+            }
+        }
+    }
+}
