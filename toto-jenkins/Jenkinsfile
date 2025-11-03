@@ -3,9 +3,16 @@ pipeline {
         label "$NODE"
     }
     stages {
-        stage("Hello world stage") {
+        stage("First stage") {
             steps {
-                echo "Hello world!"
+                echo "First stage"
+                echo "End of stage"
+            }
+        }
+        stage("Second stage") {
+            steps {
+                echo "Second stage"
+                echo "End of stage"
             }
         }
     }
