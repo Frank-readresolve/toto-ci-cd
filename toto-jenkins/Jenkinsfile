@@ -5,6 +5,9 @@ pipeline {
     tools {
         nodejs "NODE22"
     }
+    options {
+        withFolderProperties()
+    }
     stages {
         stage("Pre stage")  {
             steps {
@@ -26,6 +29,11 @@ pipeline {
                 echo "${params.hook}"
                 echo "${params.trigger}"
             }
+        }
+    }
+    post {
+        always {
+            mail(to: "${MAIL_TO}", subject:"Test subject", body:"Test body")
         }
     }
 }
