@@ -16,6 +16,7 @@ pipeline {
                         currentBuild.result = "ABORTED"
                         error("Must be a push event, was: " + params.event)
                     }
+                    cleanWs()
                 }
             }
         }
