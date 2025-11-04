@@ -33,7 +33,15 @@ pipeline {
     }
     post {
         always {
-            mail(to: "${MAIL_TO}", subject: "[JENKINS] - ${env.JOB_BASE_NAME} #${env.BUILD_ID} - ${currentBuild.currentResult} ", body: "${env.BUILD_URL}")
+            script {
+                if(params.report) {
+                    echo "Sending report..."
+                    mail(to: "${MAIL_TO}", subject: "[JENKINS] - ${env.JOB_BASE_NAME} #${env.BUILD_ID} - ${currentBuild.currentResult} ", body: "${env.BUILD_URL}")
+                } else {
+                    echo "Report disabled, not sending report"
+                }
+            }
+            
         }
     }
 }
