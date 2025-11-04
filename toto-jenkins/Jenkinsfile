@@ -2,17 +2,14 @@ pipeline {
     agent {
         label "$NODE"
     }
+    tools {
+        nodejs "NODE22"
+    }
     stages {
-        stage("First stage") {
+        stage("Build presentation") {
             steps {
-                echo "First stage"
-                echo "End of stage"
-            }
-        }
-        stage("Second stage") {
-            steps {
-                echo "Second stage"
-                echo "End of stage"
+                sh('node -v')
+                sh('npm -v')
             }
         }
     }
