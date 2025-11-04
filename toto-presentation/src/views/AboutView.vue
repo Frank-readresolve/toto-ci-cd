@@ -14,6 +14,7 @@ export default {
     <h1>Page title Frank - Push event</h1>
     <p>{{ locale }}</p>
     <p>{{ url }}</p>
+    <p>Change :)</p>
   </div>
 </template>
 
