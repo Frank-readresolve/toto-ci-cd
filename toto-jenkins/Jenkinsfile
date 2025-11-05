@@ -29,7 +29,7 @@ pipeline {
         }
         stage("Prepare presentation artifacts") {
             steps {
-                sh('toto-jenkins/prepare-presentation.sh')
+                sh('bash toto-jenkins/prepare-presentation.sh')
             }
         }
     }
