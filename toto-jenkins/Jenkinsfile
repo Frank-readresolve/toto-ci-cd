@@ -31,7 +31,6 @@ pipeline {
             steps {
                 configFileProvider(
                     [configFile(fileId: 'toto-presentation-env', variable: 'ENV_FILE_PATH')]) {
-                        echo "${ENV_FILE_PATH}"
                         sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH')                
                     }
             }
