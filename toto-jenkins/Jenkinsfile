@@ -7,6 +7,7 @@ pipeline {
     }
     options {
         withFolderProperties()
+        skipDefaultCheckout(true)
     }
     stages {
         stage("Pre stage")  {
@@ -17,6 +18,7 @@ pipeline {
                         error("Must be a push event, was: " + params.event)
                     }
                     cleanWs()
+                    checkout scm
                     echo "${NODE}"
                     echo "${params.event}"
                     echo "${params.delivery}"
