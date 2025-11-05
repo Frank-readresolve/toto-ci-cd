@@ -3,6 +3,7 @@
 readonly SCRIPT=$0
 readonly ENV_FILE_PATH=$1
 readonly TOTO_PRESENTATION_DEPLOY_DIR=$2
+readonly TOTO_PRESENTATION_URL=$3
 
 echo " > Executing: ${SCRIPT}"
 
@@ -26,3 +27,6 @@ npm --prefix ./toto-presentation/ run build
 echo " > Deploy dist/* to ${TOTO_PRESENTATION_DEPLOY_DIR}"
 rm -r $TOTO_PRESENTATION_DEPLOY_DIR/*
 cp -r ./toto-presentation/dist/* $TOTO_PRESENTATION_DEPLOY_DIR
+
+echo " > Deployed! Have a look, enjoy your job:"
+echo $TOTO_PRESENTATION_URL
