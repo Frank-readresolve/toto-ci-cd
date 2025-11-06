@@ -57,6 +57,22 @@ pipeline {
                 }
             }
         }
+        stage("Deploy business") {
+            when {
+                expression {
+                    return currentBuild.currentResult != "UNSTABLE"
+                }
+            }
+            steps {
+                script {
+                    try {
+                        sh('bash toto-jenkins/deploy-business.sh $TOTO_BUSINESS_DEPLOY_DIR $TOTO_BUSINESS_URL')                
+                    } catch(Exception ex) {
+                        error("Error in stage ${env.STAGE_NAME}: " + ex.toString())
+                    }
+                }
+            }
+        }
         stage("Deploy presentation") {
             when {
                 expression {
