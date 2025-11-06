@@ -36,7 +36,8 @@ pipeline {
                             sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')                
                         }
                     } catch(Exception ex) {
-                        unstable("Error in stage ${env.STAGE}: " + ex.toString())
+                        
+                        unstable("Error in stage ${env.STAGE_NAME}: " + ex.toString())
                     }
                 }
             }
