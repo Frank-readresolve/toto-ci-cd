@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 readonly SCRIPT=$0
 readonly ENV_FILE_PATH=$1
 readonly TOTO_PRESENTATION_DEPLOY_DIR=$2
