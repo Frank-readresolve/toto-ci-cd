@@ -14,6 +14,8 @@ npm -v
 
 echo " > Generate artifacts with npm:"
 
+toto
+
 # => toto-presentation/
 
 npm --prefix ./toto-presentation/ install
