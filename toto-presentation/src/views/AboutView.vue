@@ -3,8 +3,13 @@ export default {
   data() {
     return {
       locale: import.meta.env.VITE_I18N_LOCALE,
-      url: import.meta.env.VITE_BACKEND_URL
+      hello: null
     }
+  },
+  async beforeMount() {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/toto/hello`);
+    const data = await response.text();
+    this.hello = data;
   }
 }
 </script>
@@ -13,7 +18,7 @@ export default {
   <div class="about">
     <h1>Page title Frank - Push event</h1>
     <p>{{ locale }}</p>
-    <p>{{ url }}</p>
+    <p>{{ hello }}</p>
     <p>Change :)</p>
   </div>
 </template>
