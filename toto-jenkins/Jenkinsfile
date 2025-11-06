@@ -30,7 +30,7 @@ pipeline {
         stage("Prepare presentation artifacts") {
             steps {
                 configFileProvider(
-                    [configFile(fileId: 'toto-presentation-en', variable: 'ENV_FILE_PATH')]) {
+                    [configFile(fileId: 'toto-presentation-env', variable: 'ENV_FILE_PATH')]) {
                         sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')                
                     }
             }
