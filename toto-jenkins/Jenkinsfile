@@ -4,6 +4,8 @@ pipeline {
     }
     tools {
         nodejs "NODE22"
+        maven "MVN39"
+        jdk "JDK21"
     }
     options {
         withFolderProperties()
@@ -24,6 +26,20 @@ pipeline {
                     echo "${params.delivery}"
                     echo "${params.hook}"
                     echo "${params.trigger}"
+                }
+            }
+        }
+        stage("Prepare business artifacts") {
+            steps {
+                script {
+                    try {
+                        configFileProvider(
+                            [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
+                            sh('bash toto-jenkins/prepare-business.sh $ENV_FILE_PATH')                
+                        }
+                    } catch(Exception ex) {
+                        unstable("Error in stage ${env.STAGE_NAME}: " + ex.toString())
+                    }
                 }
             }
         }
