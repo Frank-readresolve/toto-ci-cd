@@ -10,3 +10,7 @@ echo " > Executing: ${SCRIPT}"
 echo " > Preparing business artifacts with maven and java:"
 
 mvn -v
+
+echo " > Generate artifacts with maven:"
+mvn -Dmaven.test.skip=true -f ./toto-business/pom.xml package
+
