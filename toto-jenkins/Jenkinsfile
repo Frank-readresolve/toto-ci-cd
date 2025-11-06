@@ -33,10 +33,9 @@ pipeline {
                     try {
                         configFileProvider(
                             [configFile(fileId: 'toto-presentation-env', variable: 'ENV_FILE_PATH')]) {
-                            sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')                
+                            sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH')                
                         }
                     } catch(Exception ex) {
-                        
                         unstable("Error in stage ${env.STAGE_NAME}: " + ex.toString())
                     }
                 }
@@ -49,7 +48,13 @@ pipeline {
                 }
             }
             steps {
-                echo "In deploy stage"
+                script {
+                    try {
+                        sh('bash toto-jenkins/deploy-presentation.sh $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')                
+                    } catch(Exception ex) {
+                        error("Error in stage ${env.STAGE_NAME}: " + ex.toString())
+                    }
+                }
             }
         }
     }
