@@ -15,6 +15,8 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 	registry.addMapping("/toto/hello").allowedMethods("GET")
 		.allowedOrigins(allowedOrigins);
+	registry.addMapping("/ping").allowedMethods("GET")
+		.allowedOrigins(allowedOrigins);
     }
 
 }
