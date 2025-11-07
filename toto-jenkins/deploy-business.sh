@@ -10,7 +10,7 @@ echo " > Executing: ${SCRIPT}"
 echo " > Stopping toto-business (optional operation):"
 
 readonly PID=$(lsof -ti tcp:$TOTO_BUSINESS_PORT)
-readonly PID_EXIT_CODE = $?
+readonly PID_EXIT_CODE=$?
 # Comment why...
 set -e
 
