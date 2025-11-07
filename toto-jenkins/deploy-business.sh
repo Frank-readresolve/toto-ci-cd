@@ -9,13 +9,16 @@ echo " > Executing: ${SCRIPT}"
 
 echo " > Stopping toto-business (optional operation):"
 
-readonly PID=$(lsof -ti tcp:$TOTO_BUSINESS_PORT)
-readonly PID_EXIT_CODE=$?
-# Comment why...
+# Check if a process exists on port:
+lsof -ti tcp:$TOTO_BUSINESS_PORT
+readonly LSOF_EXIT_CODE=$?
+
+# Flag to stop script execution:
 set -e
 
-if [ $PID_EXIT_CODE -eq 0 ]; then
-    # Stop the app
+if [ $LSOF_EXIT_CODE -eq 0 ]; then
+    # Get the PID (Process IDentifier)
+    readonly PID=$(lsof -ti tcp:$TOTO_BUSINESS_PORT)
     echo "Killing gracefully the process with PID=${PID}..."
     kill -15 $PID
     echo "Process killed"
