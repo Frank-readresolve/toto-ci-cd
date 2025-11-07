@@ -14,12 +14,12 @@ readonly PID_EXIT_CODE=$?
 # Comment why...
 set -e
 
-if [ $PID_EXIT_CODE -eq 0]; then
+if [ $PID_EXIT_CODE -eq 0 ]; then
     # Stop the app
     echo "Killing gracefully the process with PID=${PID}..."
     kill -15 $PID
     echo "Process killed"
-elif
+else
     echo "No process running"
 fi
 
