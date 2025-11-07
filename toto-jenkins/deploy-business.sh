@@ -31,7 +31,7 @@ rm -rf $TOTO_BUSINESS_DEPLOY_DIR/*
 cp ./toto-business/target/*.jar $TOTO_BUSINESS_DEPLOY_DIR/toto-business.jar
 
 # nohup: no hang up
-BUILD_ID=dontKillMe nohup java -jar -Dspring.profiles.active=prod $TOTO_BUSINESS_DEPLOY_DIR/toto-business.jar &
+JENKINS_NODE_COOKIE=dontKillMe nohup java -jar -Dspring.profiles.active=prod $TOTO_BUSINESS_DEPLOY_DIR/toto-business.jar &
 
 echo " > Deployed! Have a look, enjoy your job:"
 echo $TOTO_BUSINESS_URL
