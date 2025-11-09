@@ -14,7 +14,9 @@ pipeline {
         skipDefaultCheckout(true)
     }
     environment {
-        def SH_DIR="toto-jenkins/scripts"
+        def SCRIPTS_DIR="toto-jenkins/scripts"
+        def GROOVY_DIR=$SCRIPTS_DIR + "/groovy"
+        def SH_DIR=$SCRIPTS_DIR + "/sh"
     }
     stages {
         stage("Before prepare")  {
@@ -26,7 +28,7 @@ pipeline {
                     }
                     cleanWs()
                     checkout(scm)
-                    utils = load("${SH_DIR}/groovy/utils.groovy")
+                    utils = load("${GROOVY_DIR}/utils.groovy")
                     utils.printParams(params)
                 }
             }
