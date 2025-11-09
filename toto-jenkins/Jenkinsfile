@@ -1,3 +1,5 @@
+def utils
+
 pipeline {
     agent {
         label "$NODE"
@@ -11,81 +13,89 @@ pipeline {
         withFolderProperties()
         skipDefaultCheckout(true)
     }
+    environment {
+        def SH_DIR="toto-jenkins/scripts"
+    }
     stages {
-        stage("Pre stage")  {
+        stage("Before prepare")  {
             steps {
                 script {
                     if(params.event != "push") {
                         currentBuild.result = "ABORTED"
-                        error("Must be a push event, was: " + params.event)
+                        error("Expected 'push' event, was '" + params.event + "'")
                     }
                     cleanWs()
-                    checkout scm
-                    echo "${NODE}"
-                    echo "${params.event}"
-                    echo "${params.delivery}"
-                    echo "${params.hook}"
-                    echo "${params.trigger}"
+                    checkout(scm)
+                    utils = load("scripts/groovy/utils.groovy")
+                    utils.printParams(params)
                 }
             }
         }
+        // No prepare data stage in this 'context', psql and SQL files are the artifacts
         stage("Prepare business artifacts") {
             steps {
                 script {
-                    try {
+                    utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
-                            sh('bash toto-jenkins/prepare-business.sh $ENV_FILE_PATH')                
+                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH)
+                            // sh('bash toto-jenkins/prepare-business.sh $ENV_FILE_PATH')
                         }
-                    } catch(Exception ex) {
-                        unstable("Error in stage ${env.STAGE_NAME}: " + ex.toString())
-                    }
+                    }, { msg -> unstable(msg) })
                 }
             }
         }
         stage("Prepare presentation artifacts") {
             steps {
                 script {
-                    try {
+                    utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-presentation-env', variable: 'ENV_FILE_PATH')]) {
-                            sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH')                
+                                utils.bash('$SH_DIR/prepare-presentation.sh', env.ENV_FILE_PATH)
+                            // sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH')
                         }
-                    } catch(Exception ex) {
-                        unstable("Error in stage ${env.STAGE_NAME}: " + ex.toString())
+                    }, { msg -> unstable(msg) })
+                }
+            }
+        }
+        stage("Before deploy") { // Checks if build is unstable, if so then fail
+            steps {
+                script {
+                    if(utils.jobIsUnstable()) {
+                        error("Skipping deployment stages, at least one of prepare stages is unstable")
                     }
+                }
+            }
+        }
+        stage("Deploy data") {
+            environment {
+                DB_ADMIN = credentials("redwood-db-admin-user")
+            }
+            steps {
+                script {
+                    utils.handleStage({
+                        utils.bash('$SH_DIR/deploy-data.sh', env.TOTO_DATA_DEPLOY_DIR, env.DB_ADMIN_USR, env.DB_ADMIN_PSW, 'redwood', 'toto_app')
+                    })
                 }
             }
         }
         stage("Deploy business") {
-            when {
-                expression {
-                    return currentBuild.currentResult != "UNSTABLE"
-                }
-            }
             steps {
                 script {
-                    try {
-                        sh('bash toto-jenkins/deploy-business.sh $TOTO_BUSINESS_DEPLOY_DIR $TOTO_BUSINESS_URL $TOTO_BUSINESS_PORT')                
-                    } catch(Exception ex) {
-                        error("Error in stage ${env.STAGE_NAME}: " + ex.toString())
-                    }
+                    utils.handleStage({
+                        utils.bash('$SH_DIR/deploy-business.sh', env.TOTO_BUSINESS_DEPLOY_DIR, env.TOTO_BUSINESS_URL, env.TOTO_BUSINESS_PORT)
+                        //sh('bash toto-jenkins/deploy-business.sh $TOTO_BUSINESS_DEPLOY_DIR $TOTO_BUSINESS_URL $TOTO_BUSINESS_PORT')
+                    })
                 }
             }
         }
         stage("Deploy presentation") {
-            when {
-                expression {
-                    return currentBuild.currentResult != "UNSTABLE"
-                }
-            }
             steps {
                 script {
-                    try {
-                        sh('bash toto-jenkins/deploy-presentation.sh $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')                
-                    } catch(Exception ex) {
-                        error("Error in stage ${env.STAGE_NAME}: " + ex.toString())
-                    }
+                    utils.handleStage({
+                        utils.bash('$SH_DIR/deploy-presentation.sh', env.TOTO_PRESENTATION_DEPLOY_DIR, env.TOTO_PRESENTATION_URL)
+                        // sh('bash toto-jenkins/deploy-presentation.sh $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')
+                    })
                 }
             }
         }
