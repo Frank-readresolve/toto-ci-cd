@@ -14,7 +14,7 @@ rm -rf ${DEPLOY_DIR}/*
 cp -r ./toto-data/* ${DEPLOY_DIR}
 
 echo " > Connect to DB '${DB_NAME}' and execute commands from '${DEPLOY_DIR}/commands.psql'"
-psql postgresql://$USR:$PWD@localhost:5432/$DB_NAME <<MULTILINE
+psql postgresql://$DB_USR:$DB_PWD@localhost:5432/$DB_NAME <<MULTILINE
 \set ON_ERROR_STOP
 SET search_path TO $DB_SCHEMA;
 
