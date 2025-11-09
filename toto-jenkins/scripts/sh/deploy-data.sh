@@ -3,7 +3,7 @@ set -e
 
 exit_code=0
 
-readonly DATA_DEPLOY_DIR=$1
+readonly DEPLOY_DIR=$1
 readonly DB_USR=$2
 readonly DB_PWD=$3
 readonly DB_NAME=$4
