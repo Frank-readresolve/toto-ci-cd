@@ -26,7 +26,7 @@ pipeline {
                     }
                     cleanWs()
                     checkout(scm)
-                    utils = load("scripts/groovy/utils.groovy")
+                    utils = load("${SH_DIR}/groovy/utils.groovy")
                     utils.printParams(params)
                 }
             }
