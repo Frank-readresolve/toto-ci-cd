@@ -15,8 +15,8 @@ pipeline {
     }
     environment {
         def SCRIPTS_DIR="toto-jenkins/scripts"
-        def GROOVY_DIR=$SCRIPTS_DIR + "/groovy"
-        def SH_DIR=$SCRIPTS_DIR + "/sh"
+        def GROOVY_DIR="${SCRIPTS_DIR}/groovy"
+        def SH_DIR="${SCRIPTS_DIR}/sh"
     }
     stages {
         stage("Before prepare")  {
