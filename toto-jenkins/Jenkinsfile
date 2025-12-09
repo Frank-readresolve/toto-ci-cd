@@ -41,7 +41,6 @@ pipeline {
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
                                 utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH)
-                            // sh('bash toto-jenkins/prepare-business.sh $ENV_FILE_PATH')
                         }
                     }, { msg -> unstable(msg) })
                 }
@@ -54,7 +53,6 @@ pipeline {
                         configFileProvider(
                             [configFile(fileId: 'toto-presentation-env', variable: 'ENV_FILE_PATH')]) {
                                 utils.bash('$SH_DIR/prepare-presentation.sh', env.ENV_FILE_PATH)
-                            // sh('bash toto-jenkins/prepare-presentation.sh $ENV_FILE_PATH')
                         }
                     }, { msg -> unstable(msg) })
                 }
@@ -86,7 +84,6 @@ pipeline {
                 script {
                     utils.handleStage({
                         utils.bash('$SH_DIR/deploy-business.sh', env.TOTO_BUSINESS_DEPLOY_DIR, env.TOTO_BUSINESS_URL, env.TOTO_BUSINESS_PORT)
-                        //sh('bash toto-jenkins/deploy-business.sh $TOTO_BUSINESS_DEPLOY_DIR $TOTO_BUSINESS_URL $TOTO_BUSINESS_PORT')
                     })
                 }
             }
@@ -96,7 +93,6 @@ pipeline {
                 script {
                     utils.handleStage({
                         utils.bash('$SH_DIR/deploy-presentation.sh', env.TOTO_PRESENTATION_DEPLOY_DIR, env.TOTO_PRESENTATION_URL)
-                        // sh('bash toto-jenkins/deploy-presentation.sh $TOTO_PRESENTATION_DEPLOY_DIR $TOTO_PRESENTATION_URL')
                     })
                 }
             }
