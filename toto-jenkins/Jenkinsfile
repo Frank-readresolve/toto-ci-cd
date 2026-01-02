@@ -36,12 +36,15 @@ pipeline {
         // No prepare data stage in this 'context', psql and SQL files are the artifacts
         stage("Prepare business artifacts") {
             steps {
+                environment {
+                    INT_TEST = params.test
+                }
                 script {
                     utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH'),
                                 configFile(fileId: 'toto-business-test-env', variable: 'TEST_ENV_FILE_PATH')]) {
-                                utils.bash('$SH_DIR/prepare-business.sh', params.intests, env.ENV_FILE_PATH, env.TEST_ENV_FILE_PATH)
+                                utils.bash('$SH_DIR/prepare-business.sh', env.INT_TEST, env.ENV_FILE_PATH, env.TEST_ENV_FILE_PATH)
                         }
                     }, { msg -> unstable(msg) })
                 }
