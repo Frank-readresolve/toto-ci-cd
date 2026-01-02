@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-readonly INT_TEST=$3
-readonly ENV_FILE_PATH=$1
-readonly TEST_ENV_FILE_PATH=$2
+readonly INT_TEST=$1
+readonly ENV_FILE_PATH=$2
+readonly TEST_ENV_FILE_PATH=$3
 
 echo "#############"
 echo "INT_TEST=${INT_TEST}"
