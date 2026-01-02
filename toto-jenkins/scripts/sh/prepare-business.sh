@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-readonly TEST=$1
+readonly INT_TEST=$1
 readonly ENV_FILE_PATH=$2
 readonly TEST_ENV_FILE_PATH=$3
 
 echo "#############"
-echo "TEST=${TEST}"
+echo "INT_TEST=${INT_TEST}"
 echo "TEST_ENV_FILE_PATH=${TEST_ENV_FILE_PATH}"
 echo "#############"
 
