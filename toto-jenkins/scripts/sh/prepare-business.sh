@@ -2,11 +2,11 @@
 set -e
 
 readonly ENV_FILE_PATH=$1
-readonly INT_TEST=$2
+readonly SKIP_TEST=$2
 readonly TEST_ENV_FILE_PATH=$3
 
 echo "#############"
-echo "INT_TEST=${INT_TEST}"
+echo "SKIP_TEST=${SKIP_TEST}"
 echo "TEST_ENV_FILE_PATH=${TEST_ENV_FILE_PATH}"
 echo "#############"
 
