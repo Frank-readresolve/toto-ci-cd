@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-readonly INT_TEST=$1
-readonly ENV_FILE_PATH=$2
+readonly ENV_FILE_PATH=$1
+readonly INT_TEST=$2
 readonly TEST_ENV_FILE_PATH=$3
 
 echo "#############"
