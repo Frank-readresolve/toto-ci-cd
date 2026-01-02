@@ -2,7 +2,7 @@ def utils
 
 pipeline {
     agent {
-        label "$NODE"
+        label "$agent"
     }
     tools {
         nodejs "NODE22"
@@ -41,7 +41,7 @@ pipeline {
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH'),
                                 configFile(fileId: 'toto-business-test-env', variable: 'TEST_ENV_FILE_PATH')]) {
-                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, env.TEST_ENV_FILE_PATH)
+                                utils.bash('$SH_DIR/prepare-business.sh', params.intests, env.ENV_FILE_PATH, env.TEST_ENV_FILE_PATH)
                         }
                     }, { msg -> unstable(msg) })
                 }
