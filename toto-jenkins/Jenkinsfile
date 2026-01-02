@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     def intTest = params.test
-                    echo intTest
+                    echo("params.test=" + intTest)
                     utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH'),
