@@ -13,4 +13,4 @@ cp $TEST_ENV_FILE_PATH ./toto-business/src/test/resources/application-test.prope
 
 echo " > Execute goals (skip_test=${SKIP_TEST}) with maven:"
 mvn -v
-mvn -Dmaven.test.skip=$SKIP_TEST -f ./toto-business/pom.xml package
+mvn -Dmaven.test.skip=$SKIP_TEST -Dtest=* -f ./toto-business/pom.xml package
