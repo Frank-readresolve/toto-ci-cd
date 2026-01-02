@@ -37,8 +37,8 @@ pipeline {
         stage("Prepare business artifacts") {
             steps {
                 script {
-                    def intTest = params.test
-                    echo("params.test=" + intTest)
+                    def intTest = "${params.test}"
+                    echo(intTest)
                     utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH'),
