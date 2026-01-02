@@ -35,11 +35,10 @@ pipeline {
         }
         // No prepare data stage in this 'context', psql and SQL files are the artifacts
         stage("Prepare business artifacts") {
-            environment {
-                INT_TEST = params.test
-            }
             steps {
                 script {
+                    def intTest = params.test
+                    echo intTest
                     utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH'),
