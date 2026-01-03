@@ -71,7 +71,7 @@ pipeline {
                     recordCoverage(
                         tools: [[parser: 'JACOCO']],
                         id: 'jacoco', name: 'JaCoCo Coverage',
-                        sourceDirectories: '**/src/main/java',
+                        sourceDirectories: [[path:'**/src/main/java']],
                         sourceCodeRetention: 'EVERY_BUILD',
                         qualityGates: [
                                 [threshold: 60.0, metric: 'LINE', baseline: 'PROJECT', unstable: true],
