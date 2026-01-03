@@ -71,7 +71,7 @@ pipeline {
                     recordCoverage(
                         tools: [[parser: 'JACOCO']],
                         id: 'jacoco', name: 'JaCoCo Coverage',
-                        sourceDirectories: [[path:'**/src/main/java']],
+                        sourceDirectories: [[path:'	toto-business/src/main/java']],
                         sourceCodeRetention: 'EVERY_BUILD',
                         qualityGates: [
                                 [threshold: 60.0, metric: 'LINE', baseline: 'PROJECT', unstable: true],
