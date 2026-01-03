@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>21</java.version>
 		<jacoco.version>0.8.14</jacoco.version>
+		<sonar.projectKey>redwood:toto-business</sonar.projectKey>
+		<sonar.projectName>Toto business</sonar.projectName>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.coverage.jacoco.xmlReportPaths>
 			${project.basedir}/target/site/jacoco/jacoco.xml
