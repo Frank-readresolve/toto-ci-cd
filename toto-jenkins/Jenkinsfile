@@ -62,6 +62,14 @@ pipeline {
                     }, { msg -> unstable(msg) })
                 }
             }
+            post {
+                always {
+                    junit(
+                        allowEmptyResults: true,
+                        testResults: '**/surefire-reports/*.xml'
+                    )
+                }
+            }
         }
         stage("Prepare presentation artifacts") {
             steps {
