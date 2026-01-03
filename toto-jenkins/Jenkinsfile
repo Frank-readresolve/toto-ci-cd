@@ -57,7 +57,7 @@ pipeline {
                     utils.handleStage({
                         configFileProvider(
                             [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
-                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, params.skip_test)
+                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, "${params.skip_test}")
                         }
                     }, { msg -> unstable(msg) })
                 }
