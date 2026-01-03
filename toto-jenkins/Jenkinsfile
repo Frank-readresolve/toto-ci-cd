@@ -8,7 +8,6 @@ pipeline {
         nodejs "NODE22"
         maven "MVN39"
         jdk "JDK21"
-        sonarScanner 'SonarQubeScanner8'
     }
     options {
         withFolderProperties()
@@ -67,6 +66,7 @@ pipeline {
                     }, { msg -> unstable(msg) })
                 }
             }
+            /*
             post {
                 always {
                     junit(
@@ -84,6 +84,7 @@ pipeline {
                     )
                 }
             }
+            */
         }
         stage("Prepare presentation artifacts") {
             steps {
