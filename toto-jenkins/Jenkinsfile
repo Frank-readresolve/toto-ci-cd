@@ -8,6 +8,7 @@ pipeline {
         nodejs "NODE22"
         maven "MVN39"
         jdk "JDK21"
+        sonarScanner 'SonarQubeScanner8'
     }
     options {
         withFolderProperties()
@@ -55,9 +56,13 @@ pipeline {
             steps {
                 script {
                     utils.handleStage({
-                        configFileProvider(
-                            [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
-                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, "${params.skip_test}")
+                        withSonarQubeEnv('SonarQubeServer') {
+                             withCredentials([string(credentialsId: 'sonar-server-user-token', variable: 'SONAR_TOKEN')]) {
+                                configFileProvider(
+                                    [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
+                                        utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, "${params.skip_test}", env.SONAR_TOKEN)
+                                }
+                            }
                         }
                     }, { msg -> unstable(msg) })
                 }
