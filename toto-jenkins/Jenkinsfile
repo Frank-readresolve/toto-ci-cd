@@ -33,15 +33,31 @@ pipeline {
                 }
             }
         }
-        // No prepare data stage in this 'context', psql and SQL files are the artifacts
+        stage("Prepare integration tests") {
+            when{
+                expression { return !params.skip_test }
+            }
+            environment {
+                DB_ADMIN = credentials("redwood-db-admin-user")
+            }
+            steps {
+                script {
+                    utils.handleStage({
+                        configFileProvider(
+                            [configFile(fileId: 'toto-business-test-env', variable: 'TEST_ENV_FILE_PATH')]) {
+                                utils.bash('$SH_DIR/prepare-integration-tests.sh', env.TEST_ENV_FILE_PATH, env.DB_ADMIN_USR, env.DB_ADMIN_PSW, 'redwood', 'toto_test')
+                        }
+                    }, { msg -> unstable(msg) })
+                }
+            }
+        }
         stage("Prepare business artifacts") {
             steps {
                 script {
                     utils.handleStage({
                         configFileProvider(
-                            [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH'),
-                                configFile(fileId: 'toto-business-test-env', variable: 'TEST_ENV_FILE_PATH')]) {
-                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, "${params.skip_test}", env.TEST_ENV_FILE_PATH)
+                            [configFile(fileId: 'toto-business-env', variable: 'ENV_FILE_PATH')]) {
+                                utils.bash('$SH_DIR/prepare-business.sh', env.ENV_FILE_PATH, "${params.skip_test}")
                         }
                     }, { msg -> unstable(msg) })
                 }

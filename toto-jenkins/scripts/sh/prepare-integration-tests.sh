@@ -1,25 +1,22 @@
 #!/bin/bash
 set -e
 
-exit_code=0
-
-readonly DEPLOY_DIR=$1
+readonly TEST_ENV_FILE_PATH=$1
 readonly DB_USR=$2
 readonly DB_PWD=$3
 readonly DB_NAME=$4
 readonly DB_SCHEMA=$5
 
-echo " > Replace artifacts in '${DEPLOY_DIR}' with './toto-data/*'"
-rm -rf ${DEPLOY_DIR}/*
-cp -r ./toto-data/* ${DEPLOY_DIR}
+echo " > Copy tmp test env file to ./toto-business/src/test/resources/application-test.properties"
+cp $TEST_ENV_FILE_PATH ./toto-business/src/test/resources/application-test.properties
 
-echo " > Connect to DB '${DB_NAME}' and execute '${DEPLOY_DIR}/commands.psql'"
+echo " > Connect to DB '${DB_NAME}' and execute commands from './toto-data/commands-test.psql'"
 export PGPASSWORD="${DB_PWD}"
 psql "postgresql://${DB_USR}@localhost:5432/${DB_NAME}" <<MULTILINE
 \set ON_ERROR_STOP
 SET search_path TO $DB_SCHEMA;
 
-\i '${DEPLOY_DIR}/commands.psql'
+\i './toto-data/commands-test.psql'
 
 \q
 MULTILINE
