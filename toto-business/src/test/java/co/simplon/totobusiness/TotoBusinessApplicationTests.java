@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Some unit/integration test examples")
 class TotoBusinessApplicationTests extends BaseMvcTests {
 
     @DisplayName("The \"/ping\" endpoint should return string \"pong\"")
